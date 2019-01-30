@@ -8,8 +8,12 @@ def _period(start=None, end=None, cal_days=None, n=None):
     
     # 시작일만 명시되어 있다면, 마지막일은...
     if (start is not None) and (end is None):
+        # 그 이외 아무것도 명시되어 있지않다면, 무조건 오늘
+        if (n is None) and (cal_days is None):
+            end = pd.Timestamp.today()
+        
         # 정확한 샘플수가 필요하다면, 시작일 대비 샘플수의 2배수 후
-        if n is not None:
+        elif n is not None:
             end = pd.Timestamp(start) + pd.DateOffset(days=2*n)
             style = 'from'
             
